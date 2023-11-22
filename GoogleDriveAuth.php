@@ -64,10 +64,9 @@ if (isset($_GET["code"]) && !isset($_COOKIE['GoogleDriveToken'])) {
     $Param = [
         "client_id" => $ClientId,
         "client_secret" => $ClientSecret,
-        "grant_type" => "authorization_code", 
-        "redirect_uri" => "http://localhost/new_work/Verge/NewTasks/GoogleDrive/GoogleDriveAuth.php", 
-        "scope" => "https://www.googleapis.com/auth/drive",
         "code" => $_GET["code"],
+        "grant_type" => "authorization_code", 
+        "redirect_uri" => "http://localhost/new_work/Verge/NewTasks/GoogleDrive/GoogleDriveAuth.php",
     ];
 
     $Header = ["Content-Type" => "application/x-www-form-urlencoded"];
@@ -76,7 +75,6 @@ if (isset($_GET["code"]) && !isset($_COOKIE['GoogleDriveToken'])) {
     $TokenData = json_encode([ "access_token" => $Response['access_token'], "refresh_token" => $Response['refresh_token'], "expires_in" => time() + $Response['expires_in'] ]);
     setcookie('GoogleDriveToken', $TokenData, time() + (86400 * 30), '/');
 } else {
-    echo "<pre>";
     $Token_Data = json_decode($_COOKIE['GoogleDriveToken'], true);
     $sFolderid = "root";
     if(isset($_GET["Folderid"]) && $_GET["Folderid"] != "") $sFolderid = $_GET["Folderid"];
@@ -210,8 +208,5 @@ function CURL ($Method, $Curl, $Param, $Header) {
     curl_close($Curl);
     return $Response;
 }
-
-
-
 
 ?>
